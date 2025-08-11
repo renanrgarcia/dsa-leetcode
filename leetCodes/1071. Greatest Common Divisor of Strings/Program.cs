@@ -1,44 +1,27 @@
-﻿var str1 = "ABCABC";
-var str2 = "ABC";
+﻿
+var str1 = "TAUXXTAUXXTAUXXTAUXXTAUXX";
+var str2 = "TAUXXTAUXXTAUXXTAUXXTAUXXTAUXXTAUXXTAUXXTAUXX";
 
 var result = GcdOfStrings(str1, str2);
 
-Console.WriteLine(result); // Output: "ABC"
+Console.WriteLine(result);
 
-string GcdOfStrings(string str1, string str2)
+static string GcdOfStrings(string str1, string str2)
 {
-    List<string> stringList = [str1, str2];
-    List<string> subStrings = new(2);
+    if (str1 + str2 != str2 + str1)
+        return "";
 
-    foreach (string str in stringList)
-    {
-        int left = 0;
-        int right = 0;
-        int maxLength = 0;
-        HashSet<char> charSet = new HashSet<char>();
-
-        while (right < str.Length)
-        {
-            if (!charSet.Contains(str[right]))
-            {
-                charSet.Add(str[right]);
-                maxLength = Math.Max(maxLength, right - left + 1);
-                right++;
-            }
-            else
-            {
-                charSet.Remove(str[left]);
-                left++;
-            }
-        }
-        string result = new string(charSet.ToArray());
-        subStrings.Add(result);
-    }
-
-    if (subStrings[0] == subStrings[1])
-    {
-        return subStrings[0].ToString();
-    }
-    return "";
+    return str1[..GetGcd(str1.Length, str2.Length)];
 }
 
+static int GetGcd(int m, int n)
+{
+    while (n != 0)
+    {
+        int temp = n;
+        n = m % n;
+        m = temp;
+    }
+
+    return m;
+}
